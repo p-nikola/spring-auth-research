@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JWT Test</title>
+</head>
+<body>
+<h2>Test JWT-Protected API</h2>
+<button id="testBtn">Test</button>
+
+<h4>Your JWT (from cookie):</h4>
+<pre id="tokenDisplay" style="background:#f0f0f0; padding:10px;"></pre>
+
+<h4>API Response:</h4>
+<pre id="output" style="background:#f0f0f0; padding:10px;"></pre>
+
+<script>
+  // Get token from cookie and display it
+
+  document.getElementById('testBtn').addEventListener('click', async () => {
+    const jwtRes = await fetch('/auth/jwt/token');
+    const jwt = await jwtRes.text();
+    document.getElementById('tokenDisplay').textContent = jwt || "No JWT found.";
+
+    const res = await fetch('/auth/jwt/test');
+    document.getElementById('output').textContent = await res.text();
+  });
+
+</script>
+</body>
+</html>

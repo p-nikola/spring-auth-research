@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JWT Login</title>
+</head>
+<body>
+<h2>JWT Login</h2>
+<form id="jwtForm">
+    <label>Username:</label>
+    <input type="text" id="username"><br>
+    <label>Password:</label>
+    <input type="password" id="password"><br>
+    <button type="submit">Login</button>
+</form>
+
+<p id="error" style="color:red;"></p>
+
+<script>
+    document.getElementById('jwtForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const res = await fetch('/auth/jwt/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ username, password })
+        });
+
+        if (res.status !== 200) {
+            document.getElementById('error').textContent = 'Invalid credentials';
+            return;
+        }
+
+        const token = await res.text();
+        localStorage.setItem('jwt', token);
+        window.location.href = `/auth/jwt/welcome?username=${username}`;
+    });
+</script>
+</body>
+</html>
