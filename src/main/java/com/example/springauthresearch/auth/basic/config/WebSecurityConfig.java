@@ -1,6 +1,5 @@
-package com.example.springauthresearch.config;
+package com.example.springauthresearch.auth.basic.config;
 
-import com.example.springauthresearch.config.CustomUsernamePasswordAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,12 +8,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -33,30 +26,28 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .securityMatcher("/auth/basic/**")
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers( "/assets/**", "/register")
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/basic/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin((form) -> form
+                        .loginPage("/auth/basic/login")
                         .permitAll()
-                        .anyRequest()
-                        .authenticated()
-                ) .formLogin((form) -> form
-                        .loginPage("/login")
-                        .permitAll()
-                        .failureUrl("/login?error=BadCredentials")
-                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/auth/basic/login?error=BadCredentials")
+                        .defaultSuccessUrl("/auth/basic/home", true)
                 )
                 .logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .clearAuthentication(true)
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .logoutSuccessUrl("/login")
+                        .logoutUrl("/auth/basic/logout")
+                        .logoutSuccessUrl("/auth/basic/login")
                 )
                 .exceptionHandling((ex) -> ex
-                        .accessDeniedPage("/access_denied")
+                        .accessDeniedPage("/auth/basic/access_denied")
                 );
-        ;
+
         return http.build();
+
     }
 
 

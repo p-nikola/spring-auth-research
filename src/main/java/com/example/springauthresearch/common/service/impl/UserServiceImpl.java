@@ -1,12 +1,12 @@
-package com.example.springauthresearch.service.impl;
+package com.example.springauthresearch.common.service.impl;
 
-import com.example.springauthresearch.model.User;
-import com.example.springauthresearch.model.enumerations.Role;
-import com.example.springauthresearch.model.exceptions.InvalidArgumentsException;
-import com.example.springauthresearch.model.exceptions.PasswordsDoNotMatchException;
-import com.example.springauthresearch.model.exceptions.UsernameAlreadyExistsException;
-import com.example.springauthresearch.repository.UserRepository;
-import com.example.springauthresearch.service.UserService;
+import com.example.springauthresearch.common.model.enumerations.Role;
+import com.example.springauthresearch.common.service.UserService;
+import com.example.springauthresearch.common.model.User;
+import com.example.springauthresearch.common.model.exceptions.InvalidArgumentsException;
+import com.example.springauthresearch.common.model.exceptions.PasswordsDoNotMatchException;
+import com.example.springauthresearch.common.model.exceptions.UsernameAlreadyExistsException;
+import com.example.springauthresearch.common.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(String username, String password, String repeatPassword, String name, String surname, Role role) {
+    public User register(String username, String password, String repeatPassword, Role role) {
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameAlreadyExistsException(username);
         }
 
-        User user = new User(username, passwordEncoder.encode(password), name, surname, role);
+        User user = new User(username, passwordEncoder.encode(password) , role);
 
         return userRepository.save(user);
     }

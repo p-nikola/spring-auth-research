@@ -1,7 +1,6 @@
-package com.example.springauthresearch.web.controller;
+package com.example.springauthresearch.auth.basic.controller;
 
-import com.example.springauthresearch.service.AuthService;
-import com.example.springauthresearch.service.UserService;
+import com.example.springauthresearch.common.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = {"/", "", "/home"})
+@RequestMapping(path = {"/auth/basic/home"})
 public class HomeController {
 
     private final UserService userService;

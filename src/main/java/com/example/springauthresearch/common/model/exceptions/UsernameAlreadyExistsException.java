@@ -1,4 +1,4 @@
-package com.example.springauthresearch.model.exceptions;
+package com.example.springauthresearch.common.model.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

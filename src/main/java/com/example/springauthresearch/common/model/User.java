@@ -1,15 +1,13 @@
-package com.example.springauthresearch.model;
+package com.example.springauthresearch.common.model;
 
-import com.example.springauthresearch.model.enumerations.Role;
+import com.example.springauthresearch.common.model.enumerations.Role;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Data
 @Entity
@@ -20,11 +18,6 @@ public class User implements UserDetails {
     private String username;
 
     private String password;
-
-    private String name;
-
-    private String surname;
-
 
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
@@ -38,11 +31,10 @@ public class User implements UserDetails {
         // required by JPA
     }
 
-    public User(String username, String password, String name, String surname, Role role) {
+    public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
-        this.name = name;
-        this.surname = surname;
+
         this.role = role;
     }
 

@@ -1,4 +1,4 @@
-package com.example.springauthresearch.model.exceptions;
+package com.example.springauthresearch.common.model.exceptions;
 
 public class PasswordsDoNotMatchException extends RuntimeException {
     public PasswordsDoNotMatchException() {

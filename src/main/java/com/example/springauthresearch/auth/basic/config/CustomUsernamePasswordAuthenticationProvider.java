@@ -1,7 +1,7 @@
-package com.example.springauthresearch.config;
+package com.example.springauthresearch.auth.basic.config;
 
 
-import com.example.springauthresearch.service.UserService;
+import com.example.springauthresearch.common.service.UserService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

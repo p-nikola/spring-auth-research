@@ -1,4 +1,4 @@
-package com.example.springauthresearch.model.enumerations;
+package com.example.springauthresearch.common.model.enumerations;
 
 import org.springframework.security.core.GrantedAuthority;
 

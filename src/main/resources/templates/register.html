@@ -20,7 +20,7 @@
 <div xmlns:th="http://www.thymeleaf.org">
 
   <div class="container mb-4">
-    <form class="form-signin mt-xl-5" method="post" action="/register">
+    <form class="form-signin mt-xl-5" method="post" action="/auth/basic/register">
       <h2 class="form-signin-heading">Register</h2>
       <p>
         <label for="username" class="sr-only">Username</label>
@@ -37,16 +37,6 @@
         <input type="password" id="repeatedPassword" name="repeatedPassword" class="form-control"
                placeholder="Repeat Password" required="">
       </p>
-      <p>
-        <label for="name" class="sr-only">Name</label>
-        <input type="text" id="name" name="name" class="form-control" placeholder="Name" required=""
-               autofocus="">
-      </p>
-      <p>
-        <label for="surname" class="sr-only">Surname</label>
-        <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname" required=""
-               autofocus="">
-      </p>
 
       <th:block th:if="${hasError}">
         <div th:text="${error}" class="text-danger"></div>
@@ -54,7 +44,7 @@
 
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
     </form>
-    <a href="/login" class="btn btn-block btn-light">Already have an account? Login here!</a>
+    <a href="/auth/basic/login" class="btn btn-block btn-light">Already have an account? Login here!</a>
   </div>
 </div>
 
