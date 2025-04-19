@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome GitHub User</title>
+</head>
+<body>
+<h2>Welcome, <span th:text="${username}">GitHubUser</span>!</h2>
+<p>You are logged in via GitHub.</p>
+
+<form action="/auth/oauth/github/logout" method="POST">
+  <button type="submit">Logout</button>
+</form>
+</body>
+</html>
