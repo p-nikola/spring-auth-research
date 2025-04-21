@@ -7,12 +7,16 @@ import com.example.springauthresearch.common.model.exceptions.InvalidArgumentsEx
 import com.example.springauthresearch.common.model.exceptions.PasswordsDoNotMatchException;
 import com.example.springauthresearch.common.model.exceptions.UsernameAlreadyExistsException;
 import com.example.springauthresearch.common.repository.UserRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
+@Primary
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -24,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(String username, String password, String repeatPassword, Role role) {
+    public User register(String username, String password, String repeatPassword,String email, Role role) {
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameAlreadyExistsException(username);
         }
 
-        User user = new User(username, passwordEncoder.encode(password) , role);
+        User user = new User(username, passwordEncoder.encode(password) ,email, role);
 
         return userRepository.save(user);
     }
@@ -46,5 +50,16 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 }
 

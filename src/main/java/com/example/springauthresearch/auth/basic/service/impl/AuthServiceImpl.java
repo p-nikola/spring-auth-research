@@ -1,5 +1,6 @@
-package com.example.springauthresearch.auth.basic.service;
+package com.example.springauthresearch.auth.basic.service.impl;
 
+import com.example.springauthresearch.auth.basic.service.AuthService;
 import com.example.springauthresearch.common.model.User;
 import com.example.springauthresearch.common.model.exceptions.InvalidArgumentsException;
 import com.example.springauthresearch.common.repository.UserRepository;

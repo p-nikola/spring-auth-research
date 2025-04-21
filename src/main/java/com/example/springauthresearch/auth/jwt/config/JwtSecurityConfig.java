@@ -41,6 +41,7 @@ public class JwtSecurityConfig {
                         .requestMatchers("/auth/jwt/login").permitAll()
                         .anyRequest().authenticated()
                 )
+                .authenticationProvider(jwtAuthProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -54,7 +55,7 @@ public class JwtSecurityConfig {
         return provider;
     }
 
-    @Bean(name = "jwtAuthManager")
+    //@Bean(name = "jwtAuthManager")
     public AuthenticationManager jwtAuthManager(HttpSecurity http, AuthenticationProvider jwtAuthProvider) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .authenticationProvider(jwtAuthProvider)

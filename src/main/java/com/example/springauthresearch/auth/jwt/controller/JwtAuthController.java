@@ -4,12 +4,12 @@ import com.example.springauthresearch.auth.jwt.service.JwtService;
 import com.example.springauthresearch.common.dto.LoginRequest;
 import com.example.springauthresearch.common.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,8 +21,8 @@ public class JwtAuthController {
     private final UserService userService;
 
 
-    public JwtAuthController(@Qualifier("jwtAuthManager") AuthenticationManager authenticationManager, JwtService jwtService, UserService userService) {
-        this.authenticationManager = authenticationManager;
+    public JwtAuthController(AuthenticationConfiguration authenticationManager, JwtService jwtService, UserService userService) throws Exception {
+        this.authenticationManager = authenticationManager.getAuthenticationManager();
         this.jwtService = jwtService;
         this.userService = userService;
     }

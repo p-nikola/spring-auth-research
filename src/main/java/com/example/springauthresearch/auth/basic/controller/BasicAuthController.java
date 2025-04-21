@@ -71,10 +71,11 @@ public class BasicAuthController {
     @PostMapping("/register")
     public String register(@RequestParam String username,
                            @RequestParam String password,
-                           @RequestParam String repeatedPassword
+                           @RequestParam String repeatedPassword,
+                           @RequestParam String email
     ) {
         try {
-            this.userService.register(username, password, repeatedPassword, Role.ROLE_USER);
+            this.userService.register(username, password, repeatedPassword,email, Role.ROLE_USER);
             return "redirect:/auth/basic/login";
         } catch (RuntimeException ex) {
             return "redirect:/auth/basic/register?error=" + ex.getMessage();
