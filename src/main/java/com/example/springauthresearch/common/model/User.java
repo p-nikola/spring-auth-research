@@ -30,6 +30,11 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    private boolean twoFactorEnabled = false;
+
+    @Column(length = 32)
+    private String twoFactorSecret;
+
     public User() {
         // required by JPA
     }
@@ -78,5 +83,21 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isTwoFactorEnabled() {
+        return twoFactorEnabled;
+    }
+
+    public void setTwoFactorEnabled(boolean twoFactorEnabled) {
+        this.twoFactorEnabled = twoFactorEnabled;
+    }
+
+    public String getTwoFactorSecret() {
+        return twoFactorSecret;
+    }
+
+    public void setTwoFactorSecret(String twoFactorSecret) {
+        this.twoFactorSecret = twoFactorSecret;
     }
 }

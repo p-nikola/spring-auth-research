@@ -1,5 +1,6 @@
 package com.example.springauthresearch.auth.basic.config;
 
+import com.example.springauthresearch.auth.twofactor.service.TwoFactorService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,7 +9,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 
 @Configuration
@@ -17,9 +20,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     private final CustomUsernamePasswordAuthenticationProvider authProvider;
+    private final TwoFactorService twoFactorService;
 
-    public WebSecurityConfig(CustomUsernamePasswordAuthenticationProvider authProvider) {
+    public WebSecurityConfig(CustomUsernamePasswordAuthenticationProvider authProvider, TwoFactorService twoFactorService) {
         this.authProvider = authProvider;
+        this.twoFactorService = twoFactorService;
     }
 
     @Bean
@@ -34,9 +39,11 @@ public class WebSecurityConfig {
                 )
                 .formLogin((form) -> form
                         .loginPage("/auth/basic/login")
-                        .permitAll()
+                        .loginProcessingUrl("/auth/basic/login")
+                        .successHandler(twoFactorSuccessHandler(twoFactorService))
                         .failureUrl("/auth/basic/login?error=BadCredentials")
-                        .defaultSuccessUrl("/auth/basic/home", true)
+                        .permitAll()
+
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/auth/basic/logout")
@@ -48,6 +55,11 @@ public class WebSecurityConfig {
 
         return http.build();
 
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler twoFactorSuccessHandler(TwoFactorService twoFactorService) {
+        return new TwoFactorAuthenticationSuccessHandler(twoFactorService);
     }
 
 

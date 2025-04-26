@@ -1,5 +1,6 @@
 package com.example.springauthresearch.auth.basic.controller;
 
+import com.example.springauthresearch.common.model.User;
 import com.example.springauthresearch.common.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,10 @@ public class HomeController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username=auth.getName();
+        User current = (User) userService.loadUserByUsername(username);
+
         model.addAttribute("name",username);
+        model.addAttribute("user",current);
         return "home";
     }
 

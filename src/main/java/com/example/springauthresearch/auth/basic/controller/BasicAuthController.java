@@ -21,7 +21,6 @@ public class BasicAuthController {
         this.userService = userService;
     }
 
-    // ==================== LOGIN ====================
 
     @GetMapping("/login")
     public String getLoginPage(@RequestParam(required = false) String error, Model model) {
@@ -32,16 +31,23 @@ public class BasicAuthController {
         return "login";
     }
 
-    @PostMapping("/login")
+    //@PostMapping("/login")
     public String login(HttpServletRequest request, Model model) {
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-
             User user = authService.login(username, password);
-            request.getSession().setAttribute("user", user);
 
-            return "redirect:/home";
+            if (!user.isTwoFactorEnabled()) {
+                // no 2FA -> full login
+                request.getSession().setAttribute("user", user);
+                return "redirect:/home";
+            }
+
+            // 2FA is enabled: hold them in a “pending” state
+            request.getSession().setAttribute("pre2faUser", user);
+            return "redirect:/auth/basic/2fa/verify";
+
         } catch (RuntimeException ex) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", ex.getMessage());
@@ -49,7 +55,7 @@ public class BasicAuthController {
         }
     }
 
-    // ==================== LOGOUT ====================
+
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
@@ -57,7 +63,6 @@ public class BasicAuthController {
         return "redirect:/auth/basic/login";
     }
 
-    // ==================== REGISTER ====================
 
     @GetMapping("/register")
     public String getRegisterPage(@RequestParam(required = false) String error, Model model) {
