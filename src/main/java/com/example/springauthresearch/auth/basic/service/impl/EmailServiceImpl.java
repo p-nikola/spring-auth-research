@@ -33,5 +33,6 @@ public class EmailServiceImpl implements EmailService {
         message.setFrom("johndevo1337@gmail.com");
 
         mailSender.send(message);
+        System.out.println("MAIL SENT SUCCESSFULLY");
     }
 }
