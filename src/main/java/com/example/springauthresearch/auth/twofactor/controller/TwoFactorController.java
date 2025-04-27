@@ -22,7 +22,7 @@ public class TwoFactorController {
 
     /** STEP 1: Show the QR‐code setup page */
     @GetMapping("/setup")
-    public String showSetup(HttpSession session, Model model) {
+    public String showSetup(Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         GoogleAuthenticatorKey key = twoFactorService.generateKey(username);
         model.addAttribute("qrUrl", GoogleAuthenticatorQRGenerator.getOtpAuthURL("MyApp", username, key));
