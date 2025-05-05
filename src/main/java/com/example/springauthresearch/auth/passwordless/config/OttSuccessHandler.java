@@ -49,7 +49,7 @@ public class OttSuccessHandler implements OneTimeTokenGenerationSuccessHandler {
                 .toUriString();
 
         // 3) “send” it
-        System.out.println("👉 magic link: " + magicLink);
+        System.out.println("magic link: " + magicLink);
 
         emailServicePasswordless.sendResetPasswordEmail(token.getUsername(),magicLink);
 

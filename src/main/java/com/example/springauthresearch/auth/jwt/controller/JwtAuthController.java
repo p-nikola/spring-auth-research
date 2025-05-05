@@ -38,6 +38,7 @@ public class JwtAuthController {
         // 🔐 Set cookie
         ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
                 .httpOnly(true)
+                .secure(true)
                 .path("/")
                 .maxAge(60 * 60) // 1 hour
                 .build();

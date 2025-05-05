@@ -27,8 +27,8 @@ async function register() {
     // 1) Fetch registration options
     const resp = await fetch("/auth/yubikey/register/options", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username }),
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username}),
     });
     const opts = await resp.json();
 
@@ -45,7 +45,7 @@ async function register() {
     }
 
     // 4) Create the credential
-    const cred = await navigator.credentials.create({ publicKey: opts });
+    const cred = await navigator.credentials.create({publicKey: opts});
 
     // 5) Build payload (including empty clientExtensionResults)
     const data = {
@@ -64,10 +64,19 @@ async function register() {
     // 6) Send to server
     const fin = await fetch("/auth/yubikey/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
     });
-    alert(await fin.text());
+    //(await fin.text());
+
+    const text= await fin.text();
+    if (text.startsWith("OK")) {
+        // redirect to the login page
+        window.location.href = "/auth/yubikey/login";
+    } else {
+        // on failure, show the error
+        alert("Registration failed: " + text);
+    }
 }
 
 async function login() {
@@ -76,8 +85,8 @@ async function login() {
     // 1) Fetch authentication options
     const resp = await fetch("/auth/yubikey/login/options", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username }),
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username}),
     });
     const opts = await resp.json();
 
@@ -98,7 +107,7 @@ async function login() {
     }
 
     // 4) Get the assertion
-    const assertion = await navigator.credentials.get({ publicKey: opts });
+    const assertion = await navigator.credentials.get({publicKey: opts});
 
     // 5) Build payload
     const data = {
@@ -118,11 +127,36 @@ async function login() {
         clientExtensionResults: {},
     };
 
-    // 6) Send to server
-    const fin = await fetch("/auth/yubikey/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    });
-    alert(await fin.text());
+    // // 6) Send to server
+    // const fin = await fetch("/auth/yubikey/login", {
+    //     method: "POST",
+    //     headers: {"Content-Type": "application/json"},
+    //     credentials:"same-origin",
+    //     body: JSON.stringify(data),
+    // });
+    // //alert(await fin.text());
+    // //get the username from the form
+    // const text = await fin.text();
+    // if (text.startsWith("OK")) {
+    //     window.location.href = "/auth/yubikey/welcome";
+    // } else {
+    //     alert("Login failed: " + text);
+    // }
+    try {
+        const fin = await fetch("/auth/yubikey/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            credentials: "same-origin",
+            body: JSON.stringify(data),
+        });
+        const response = await fin.json();
+        if (response.status === "OK") {
+            window.location.href = "/auth/yubikey/welcome";
+        } else {
+            alert("Login failed: " + response.error);
+        }
+    } catch (error) {
+        alert("Network error: Unable to connect to server");
+        console.error("Login error:", error);
+    }
 }

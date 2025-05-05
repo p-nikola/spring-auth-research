@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome</title>
+</head>
+<body>
+<h1>Welcome, <span th:text="${user}">User</span>!</h1>
+<p>You’re now logged in with your YubiKey.</p>
+<a th:href="@{/auth/yubikey/logout}">Logout</a>
+</body>
+</html>

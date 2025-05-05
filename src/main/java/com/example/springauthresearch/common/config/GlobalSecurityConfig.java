@@ -14,7 +14,10 @@ public class GlobalSecurityConfig {
         http
                 .securityMatcher("/**") // catch everything else
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/auth/yubikey/register/options",
+                                "/auth/yubikey/register",
+                                "/auth/yubikey/login/options",
+                                "/auth/yubikey/login").permitAll()
                         .anyRequest().denyAll() // prevent access to anything else unless configured
                 )
                 .csrf(AbstractHttpConfigurer::disable);
