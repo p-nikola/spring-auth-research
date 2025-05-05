@@ -34,3 +34,5 @@ build/
 
 secrets.properties
 .env
+secrets-mac.properties
+/src/main/resources/keystore.p12

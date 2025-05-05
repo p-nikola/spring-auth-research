@@ -3,6 +3,7 @@ package com.example.springauthresearch.auth.yubikey.config;
 import com.yubico.webauthn.RelyingParty;
 import com.yubico.webauthn.data.RelyingPartyIdentity;
 import com.example.springauthresearch.auth.yubikey.repository.CustomCredentialRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -63,14 +64,14 @@ public class YubikeyConfig {
 
 
     @Bean
-    public RelyingParty relyingParty(CustomCredentialRepository credRepo) {
+    public RelyingParty relyingParty(CustomCredentialRepository credRepo, @Value("${webauthn.origins}") String webAuthnOrigins) {
         return RelyingParty.builder()
                 .identity(RelyingPartyIdentity.builder()
                         .id("localhost")
                         .name("MyApp")
                         .build())
                 .credentialRepository(credRepo)
-                .origins(Set.of("http://localhost:9090"))
+                .origins(Set.of(webAuthnOrigins))
                 .build();
     }
 }
