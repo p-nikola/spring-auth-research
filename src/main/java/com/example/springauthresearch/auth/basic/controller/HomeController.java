@@ -28,13 +28,13 @@ public class HomeController {
 
         model.addAttribute("name",username);
         model.addAttribute("user",current);
-        return "home";
+        return "home/home";
     }
 
     @GetMapping("/access_denied")
     public String getAccessDeniedPage(Model model) {
         model.addAttribute("bodyContent", "access-denied");
-        return "access-denied";
+        return "home/access-denied";
     }
 
 }

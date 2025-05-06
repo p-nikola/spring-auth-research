@@ -30,15 +30,14 @@ public class PasswordResetController {
 
     @GetMapping("/forgot")
     public String forgotPasswordForm() {
-        return "forgot-password";
+        return "basic/forgot-password";
     }
 
     @PostMapping("/forgot")
-    @ResponseBody
     public String handleForgot(@RequestParam String email) {
         // Check if user exists
         var user = userService.findByEmail(email).orElse(null);
-        if (user == null) return "Email not found.";
+        if (user == null) return "basic/email-not-found";
 
         String token = UUID.randomUUID().toString();
         PasswordResetToken resetToken = new PasswordResetToken();
@@ -49,20 +48,20 @@ public class PasswordResetController {
 
         emailService.sendResetPasswordEmail(email, token);
         System.out.println("Password reset link: http://localhost:9090/auth/basic/password/reset?token=" + token);
-        return "Check your email (console) for reset link.";
+        return "basic/check-your-email";
     }
 
     @GetMapping("/reset")
     public String showResetForm(@RequestParam String token, org.springframework.ui.Model model) {
         model.addAttribute("token", token);
-        return "reset-password";
+        return "basic/reset-password";
     }
 
     @PostMapping("/reset")
     public String handleReset(@RequestParam String token, @RequestParam String newPassword) {
         var tokenEntity = tokenRepo.findByToken(token).orElse(null);
         if (tokenEntity == null || tokenEntity.getExpiration().isBefore(LocalDateTime.now())) {
-            return "Invalid or expired token.";
+            return "basic/invalid-token";
         }
 
         var user = userService.findByEmail(tokenEntity.getEmail())
@@ -73,7 +72,7 @@ public class PasswordResetController {
 
         tokenRepo.delete(tokenEntity);
 
-        return "password-reset-success";
+        return "basic/password-reset-success";
     }
 
 }

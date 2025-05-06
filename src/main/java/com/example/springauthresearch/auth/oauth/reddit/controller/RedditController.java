@@ -13,12 +13,12 @@ public class RedditController {
 
     @GetMapping("/login")
     public String login() {
-        return "reddit-login"; // your HTML file
+        return "oauth/reddit/reddit-login"; // your HTML file
     }
 
     @GetMapping("/welcome")
     public String welcome(@AuthenticationPrincipal OAuth2User principal, Model model) {
         model.addAttribute("username", principal.getAttribute("name"));
-        return "reddit-welcome"; // your HTML file
+        return "oauth/reddit/reddit-welcome"; // your HTML file
     }
 }

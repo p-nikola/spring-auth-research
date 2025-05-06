@@ -13,13 +13,13 @@ public class GitHubController {
 
     @GetMapping("/login")
     public String oauthLoginPage() {
-        return "github-login"; // Thymeleaf template name
+        return "oauth/github/github-login"; // Thymeleaf template name
     }
 
 
     @GetMapping("/welcome")
     public String welcome(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        model.addAttribute("username", principal.getAttribute("login")); // GitHub login name
-        return "github-welcome"; // maps to github-welcome.html
+        model.addAttribute("username", principal.getAttribute("login")); 
+        return "oauth/github/github-welcome"; 
     }
 }

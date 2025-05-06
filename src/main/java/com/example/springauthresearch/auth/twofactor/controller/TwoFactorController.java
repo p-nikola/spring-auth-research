@@ -26,7 +26,7 @@ public class TwoFactorController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         GoogleAuthenticatorKey key = twoFactorService.generateKey(username);
         model.addAttribute("qrUrl", GoogleAuthenticatorQRGenerator.getOtpAuthURL("MyApp", username, key));
-        return "2fa-setup";
+        return "2fa/2fa-setup";
     }
 
     /** STEP 2: Confirm the first code & enable 2FA */
@@ -43,7 +43,7 @@ public class TwoFactorController {
     /** STEP 3: Show the TOTP prompt during login */
     @GetMapping("/verify")
     public String showVerify() {
-        return "2fa-verify";
+        return "2fa/2fa-verify";
     }
 
     /** STEP 4: Verify TOTP on login */

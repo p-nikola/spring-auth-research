@@ -17,7 +17,6 @@ import java.util.function.Function;
 public class JwtService {
 
 
-    // For simplicity; ideally read this from application.properties
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -45,7 +44,7 @@ public class JwtService {
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts.parser()
-                .verifyWith(getSigningKey()) // new in 0.12.x
+                .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

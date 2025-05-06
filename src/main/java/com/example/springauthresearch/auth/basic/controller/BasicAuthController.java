@@ -28,7 +28,7 @@ public class BasicAuthController {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
-        return "login";
+        return "basic/login";
     }
 
     //@PostMapping("/login")
@@ -70,7 +70,7 @@ public class BasicAuthController {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
-        return "register";
+        return "basic/register";
     }
 
     @PostMapping("/register")

@@ -11,7 +11,7 @@ public class OauthController {
 
     @GetMapping("/login")
     public String oauthMainLoginPage() {
-        return "oauth-login";
+        return "oauth/oauth-login";
 
     }
 

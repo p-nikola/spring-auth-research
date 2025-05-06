@@ -8,16 +8,16 @@ public class JwtWebController {
 
     @GetMapping("/auth/jwt/login")
     public String jwtLoginPage() {
-        return "jwt-login"; // maps to jwt-login.html
+        return "jwt/jwt-login";
     }
 
     @GetMapping("/auth/jwt/welcome")
     public String welcomePage() {
-        return "welcome"; // maps to welcome.html
+        return "jwt/welcome";
     }
 
     @GetMapping("/auth/jwt/test-page")
     public String testPage() {
-        return "jwt-test"; // maps to jwt-test.html
+        return "jwt/jwt-test";
     }
 }

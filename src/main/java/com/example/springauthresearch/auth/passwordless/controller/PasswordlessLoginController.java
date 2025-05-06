@@ -11,16 +11,16 @@ public class PasswordlessLoginController {
 
     @GetMapping("/login")
     public String login() {
-        return "passwordless-login";
+        return "passwordless/passwordless-login";
     }
 
     @GetMapping("/check-email")
     public String checkEmail() {
-        return "check-email";
+        return "passwordless/check-email";
     }
 
     @GetMapping("/welcome")
     public String welcome() {
-        return "welcome-passwordless";
+        return "passwordless/welcome-passwordless";
     }
 }

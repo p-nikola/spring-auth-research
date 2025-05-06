@@ -13,13 +13,13 @@ public class FacebookController {
 
     @GetMapping("/login")
     public String loginPage() {
-        return "facebook-login"; // your HTML login page
+        return "oauth/facebook/facebook-login"; // your HTML login page
     }
 
     @GetMapping("/welcome")
     public String welcome(@AuthenticationPrincipal OAuth2User user, Model model) {
         model.addAttribute("username", user.getAttribute("name"));
-        return "facebook-welcome"; // your HTML welcome page
+        return "oauth/facebook/facebook-welcome"; // your HTML welcome page
     }
 }
 

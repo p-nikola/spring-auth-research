@@ -49,7 +49,7 @@ public class PasswordlessSecurityConfig {
                         "/auth/passwordless/**",
                         "/auth/passwordless/generate",
                         "/auth/passwordless/verify",
-                        "/default-ui.css",  // for the built‑in CSS if you’re using DefaultResourcesFilter
+                        "/default-ui.css",
                         "/error"
                 )
                 .csrf(AbstractHttpConfigurer::disable)
@@ -74,7 +74,7 @@ public class PasswordlessSecurityConfig {
                 .addFilterBefore(DefaultResourcesFilter.css(),
                         SecurityContextHolderFilter.class)
 
-                // 3) your custom login page
+                // 3) custom login page
                 .formLogin(form -> form
                         .loginPage("/auth/passwordless/login")
                         .permitAll()

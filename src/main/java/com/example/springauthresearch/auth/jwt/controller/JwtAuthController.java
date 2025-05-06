@@ -35,12 +35,12 @@ public class JwtAuthController {
         var user = userService.loadUserByUsername(request.getUsername());
         var jwt = jwtService.generateToken(user);
 
-        // 🔐 Set cookie
+        //Set cookie
         ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(60 * 60) // 1 hour
+                .maxAge(60 * 60)
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());

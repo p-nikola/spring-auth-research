@@ -13,12 +13,12 @@ public class DiscordController {
 
     @GetMapping("/login")
     public String login() {
-        return "discord-login"; // Create a simple login page
+        return "oauth/discord/discord-login"; // Create a simple login page
     }
 
     @GetMapping("/welcome")
     public String welcome(@AuthenticationPrincipal OAuth2User principal, Model model) {
         model.addAttribute("username", principal.getAttribute("username")); // From Discord
-        return "discord-welcome";
+        return "oauth/discord/discord-welcome";
     }
 }
