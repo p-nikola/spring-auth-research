@@ -1,6 +1,7 @@
 package com.example.springauthresearch.auth.basic.service.impl;
 
 import com.example.springauthresearch.common.service.EmailService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender mailSender;
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public EmailServiceImpl(JavaMailSender mailSender) {
         this.mailSender = mailSender;
@@ -24,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendResetPasswordEmail(String to, String token) {
-        String resetUrl = "http://localhost:9090/auth/basic/password/reset?token=" + token;
+        String resetUrl = baseUrl + "/auth/basic/password/reset?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);

@@ -5,6 +5,7 @@ import com.example.springauthresearch.auth.basic.repository.PasswordResetTokenRe
 import com.example.springauthresearch.common.service.EmailService;
 import com.example.springauthresearch.common.service.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,9 @@ public class PasswordResetController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public PasswordResetController(PasswordResetTokenRepository tokenRepo, UserService userService, PasswordEncoder passwordEncoder, @Qualifier("emailservicebasic") EmailService emailService) {
         this.tokenRepo = tokenRepo;
@@ -47,7 +51,7 @@ public class PasswordResetController {
         tokenRepo.save(resetToken);
 
         emailService.sendResetPasswordEmail(email, token);
-        System.out.println("Password reset link: http://localhost:9090/auth/basic/password/reset?token=" + token);
+        System.out.println("Password reset link: " + baseUrl + "/auth/basic/password/reset?token=" + token);
         return "basic/check-your-email";
     }
 
